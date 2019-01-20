@@ -35,7 +35,9 @@ public class KmActivity extends AppCompatActivity {
 		imgReturn_clic() ;
 		cmdValider_clic() ;
 		cmdPlus_clic() ;
+		cmdPlusPlus_clic();
 		cmdMoins_clic() ;
+		cmdMoinsMoins_clic();
 		dat_clic() ;
 	}
 
@@ -95,28 +97,52 @@ public class KmActivity extends AppCompatActivity {
     }
     
     /**
-     * Sur le clic du bouton plus : ajout de 10 dans la quantité
+     * Sur le clic du bouton plus : ajout de 1 dans la quantité
      */
     private void cmdPlus_clic() {
     	findViewById(R.id.cmdKmPlus).setOnClickListener(new Button.OnClickListener() {
     		public void onClick(View v) {
-    			qte+=10 ;
+    			qte+=1 ;
     			enregNewQte() ;
     		}
     	}) ;    	
     }
     
     /**
-     * Sur le clic du bouton moins : enlève 10 dans la quantité si c'est possible
+     * Sur le clic du bouton moins : enlève 1 dans la quantité si c'est possible
      */
     private void cmdMoins_clic() {
     	findViewById(R.id.cmdKmMoins).setOnClickListener(new Button.OnClickListener() {
     		public void onClick(View v) {
-   				qte = Math.max(0, qte-10) ; // suppression de 10 si possible
+   				qte = Math.max(0, qte-1) ; // suppression de 1 si possible
     			enregNewQte() ;
      		}
     	}) ;    	
     }
+
+	/**
+	 * Sur le clic du bouton plus-plus : ajout de 10 dans la quantité
+	 */
+	private void cmdPlusPlus_clic() {
+		findViewById(R.id.cmdKmPlusPlus).setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				qte+=10 ;
+				enregNewQte() ;
+			}
+		}) ;
+	}
+
+	/**
+	 * Sur le clic du bouton moins-moins : enlève 10 dans la quantité si c'est possible
+	 */
+	private void cmdMoinsMoins_clic() {
+		findViewById(R.id.cmdKmMoinsMoins).setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				qte = Math.max(0, qte-10) ; // suppression de 10 si possible
+				enregNewQte() ;
+			}
+		}) ;
+	}
     
     /**
      * Sur le changement de date : mise à jour de l'affichage de la qte
