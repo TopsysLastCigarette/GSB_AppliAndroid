@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // envoi les informations sérialisées vers le serveur
                 // en construction
+                startActivity(new Intent(MainActivity.this, ConnexionActivity.class));
             }
         });
     }

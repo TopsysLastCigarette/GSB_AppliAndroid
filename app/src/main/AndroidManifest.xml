@@ -29,7 +29,9 @@
         <activity android:name=".KmActivity" />
         <activity android:name=".NuiteeActivity" />
         <activity android:name=".EtapeActivity" />
-        <activity android:name=".RepasActivity"></activity>
+        <activity android:name=".RepasActivity" />
+        <activity android:name=".ConnexionActivity"></activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
