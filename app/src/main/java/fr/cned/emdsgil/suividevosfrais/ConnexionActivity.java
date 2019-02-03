@@ -43,7 +43,6 @@ public class ConnexionActivity extends AppCompatActivity {
                 AccesDistant accesDistant = new AccesDistant(context);
                 accesDistant.envoi("connexion", lesDonneesJSON);
 
-                retourActivityPrincipale() ;
             }
         }) ;
     }

@@ -3,21 +3,52 @@ package fr.cned.emdsgil.suividevosfrais;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
+
+    SessionManagement session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("GSB : Suivi des frais");
+        //Récupération de la session
+        session = new SessionManagement(this);
+
+        //Récupère le layout de session et l'inflater
+        ViewGroup sessionLayout = (ViewGroup)findViewById(R.id.layoutSession);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE);
+
+        if(!session.isLoggedIn()){
+            //Si pas connecté
+            View layout = inflater.inflate(R.layout.layout_session_disconnected, sessionLayout);
+            cmdSessionCo_clic();
+        } else {
+            // Get infos session
+            HashMap<String, String> user = session.getUserDetails();
+            String nom = user.get(SessionManagement.KEY_NAME);
+            View layout = inflater.inflate(R.layout.layout_session_connected, sessionLayout);
+            TextView nomVisiteur = (TextView) findViewById(R.id.txtNomVisiteur);
+            nomVisiteur.setText(nom);
+            cmdSessionDeco_clic();
+        }
+
         // récupération des informations sérialisées
         recupSerialize();
         // chargement des méthodes événementielles
@@ -86,8 +117,40 @@ public class MainActivity extends AppCompatActivity {
     private void cmdTransfert_clic() {
         findViewById(R.id.cmdTransfert).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                // envoi les informations sérialisées vers le serveur
-                // en construction
+                //Si la session n'existe pas
+                if(!session.isLoggedIn()){
+                    startActivity(new Intent(MainActivity.this, ConnexionActivity.class));
+                } else {
+                    AlertDialogManager adm = new AlertDialogManager();
+                    adm.showAlertDialog(MainActivity.this, "Deja connecté", "Deja co");
+                }
+
+            }
+        });
+    }
+
+    /**
+     * Clic sur le bouton de déconnexion du layout de session
+     */
+    private void cmdSessionDeco_clic() {
+        findViewById(R.id.cmdSessionDeco).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                //Se déconnecte de la session
+                session.logoutUser();
+                //Rafraichis l'activity
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Clic sur le bouton de connexion du layout de session
+     */
+    private void cmdSessionCo_clic() {
+        findViewById(R.id.cmdSessionCo).setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ConnexionActivity.class));
             }
         });

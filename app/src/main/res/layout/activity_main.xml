@@ -14,156 +14,177 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.25"
-        android:baselineAligned="false">
+        android:layout_weight="0.92"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/layoutSession"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <ImageButton
-                android:id="@+id/cmdKm"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/frais_km"
-                android:contentDescription="@string/icone_frais_km"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <ImageButton
-                android:id="@+id/cmdRepas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/frais_repas"
-                android:contentDescription="@string/icone_frais_repas" />
-
+            android:orientation="horizontal">
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.25"
-        android:baselineAligned="false">
+        android:layout_weight="0.08"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <ImageButton
-                android:id="@+id/cmdNuitee"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/frais_nuitee"
-                android:contentDescription="@string/icone_frais_nuitee"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <ImageButton
-                android:id="@+id/cmdEtape"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/frais_etape"
-                android:contentDescription="@string/icone_frais_etape"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.25"
-        android:baselineAligned="false">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <ImageButton
-                android:id="@+id/cmdHf"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/frais_hf"
-                android:contentDescription="@string/icone_frais_hf"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <ImageButton
-                android:id="@+id/cmdHfRecap"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/frais_hf_recap"
-                android:contentDescription="@string/icone_recap_hf" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.25"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
-
-        <ImageButton
-            android:id="@+id/cmdTransfert"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="0.25"
-            android:background="@null"
-            android:contentDescription="@string/icone_transfert"
-            android:scaleType="fitCenter"
-            android:src="@drawable/transfert" />
+            android:baselineAligned="false">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/cmdKm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:contentDescription="@string/icone_frais_km"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frais_km" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/cmdRepas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:contentDescription="@string/icone_frais_repas"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frais_repas" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/cmdNuitee"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:contentDescription="@string/icone_frais_nuitee"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frais_nuitee" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/cmdEtape"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:contentDescription="@string/icone_frais_etape"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frais_etape" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/cmdHf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:contentDescription="@string/icone_frais_hf"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frais_hf" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/cmdHfRecap"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:contentDescription="@string/icone_recap_hf"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frais_hf_recap" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/cmdTransfert"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.25"
+                android:background="@null"
+                android:contentDescription="@string/icone_transfert"
+                android:scaleType="fitCenter"
+                android:src="@drawable/transfert" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
