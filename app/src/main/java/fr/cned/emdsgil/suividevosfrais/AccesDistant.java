@@ -53,19 +53,30 @@ public class AccesDistant implements AsyncResponse{
                     toast.show();
                 }
             }else if(message[0].equals("synchro")) {
-                //TODO Synchro
+                String texte;
+                if(message[1].equals("synchronized")){
+                    texte = "Synchronisation réussie !";
+                } else {
+                    texte = "Synchronisation échouée !";
+                }
+                Toast toast = Toast.makeText(context, texte, Toast.LENGTH_LONG);
+                toast.show();
             }else if(message[0].equals("Erreur !")){
                 Log.d("Erreur !","****************"+message[1]);
             }
         }
     }
 
-    public void envoi(String operation, JSONArray lesDonneesJSON){
+    public void envoi(String operation, JSONArray lesDonneesJSON, String idVisiteur){
         AccesHTTP accesDonnees = new AccesHTTP();
         accesDonnees.delegate = this;
 
         accesDonnees.addParam("operation", operation );
         accesDonnees.addParam("lesdonnees", lesDonneesJSON.toString());
+
+        if(idVisiteur != null){
+            accesDonnees.addParam("idvisiteur", idVisiteur);
+        }
 
         accesDonnees.execute(SERVERADDR);
     }

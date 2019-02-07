@@ -41,7 +41,7 @@ public class ConnexionActivity extends AppCompatActivity {
 
                 //Accès à la base distance
                 AccesDistant accesDistant = new AccesDistant(context);
-                accesDistant.envoi("connexion", lesDonneesJSON);
+                accesDistant.envoi("connexion", lesDonneesJSON, null);
 
             }
         }) ;

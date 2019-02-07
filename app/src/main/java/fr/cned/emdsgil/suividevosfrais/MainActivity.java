@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,8 +17,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -121,10 +137,32 @@ public class MainActivity extends AppCompatActivity {
                 if(!session.isLoggedIn()){
                     startActivity(new Intent(MainActivity.this, ConnexionActivity.class));
                 } else {
-                    AlertDialogManager adm = new AlertDialogManager();
-                    adm.showAlertDialog(MainActivity.this, "Deja connecté", "Deja co");
-                }
+                    HashMap<String, String> user = session.getUserDetails();
+                    String id = user.get(SessionManagement.KEY_ID);
 
+                    //Conversion en String au format JSONObject
+                    String json = new Gson().toJson(Global.listFraisMois);
+
+                    //Conversion en JSONObject
+                    try{
+                        JSONObject jsonObj = new JSONObject(json);
+                        //Conversion en JSONArray
+                        Iterator x = jsonObj.keys();
+                        JSONArray jsonArray = new JSONArray();
+                        while (x.hasNext()){
+                            String key = (String) x.next();
+                            jsonArray.put(jsonObj.get(key));
+                        }
+                        //Envoi au serveur
+                        AccesDistant accesDistant = new AccesDistant(MainActivity.this);
+                        accesDistant.envoi("synchro", jsonArray, id);
+                    }catch(JSONException e){
+                        e.getMessage();
+                    }
+
+
+
+                }
             }
         });
     }
