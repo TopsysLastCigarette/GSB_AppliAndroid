@@ -58,6 +58,7 @@ public class AccesDistant implements AsyncResponse{
                     texte = "Synchronisation réussie !";
                 } else {
                     texte = "Synchronisation échouée !";
+                    texte += message[1];
                 }
                 Toast toast = Toast.makeText(context, texte, Toast.LENGTH_LONG);
                 toast.show();

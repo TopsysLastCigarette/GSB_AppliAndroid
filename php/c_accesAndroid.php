@@ -1,58 +1,98 @@
 <?php
-include dirname(__DIR__).'/includes/class.pdogsb.inc.php';
+require_once '../includes/class.pdogsb.inc.php';
+require_once '../includes/fct.inc.php';
 
-$param = $_REQUEST['operation'];
+//Récupération de l'appel
+$operation = $_REQUEST['operation'];
 
-if (isset($param)) {
-	switch ($param) {
-	case 'connexion':
-      try {
-        //Récupération des données
-          $lesDonnees = json_decode($_REQUEST['lesdonnees']);
-		  		$login = $lesDonnees[0];
-		  		$mdp = $lesDonnees[1];
+if (isset($operation)) {
+	switch($operation){
+		case 'connexion':
+		print "connexion%";
+		try {
+			//Récupération des données
+				$lesDonnees = json_decode($_REQUEST['lesdonnees']);
+				$login = $lesDonnees[0];
+				$mdp = $lesDonnees[1];
+				//Connexion à la base de données
+				$pdo = PdoGsb::getPdoGsb();
+				$visiteur = $pdo->getInfosVisiteur($login, $mdp);
 
-          //Insertion dans la BDD
-		  		print ("Connexion à la BDD");
-					$visiteur = $pdo->getInfosVisiteur($login, $mdp);
-					if (!is_array($visiteur)) {
-							//TODO Erreur de connexion
-					} else {
-							//TODO Connexion valide
+				if (!is_array($visiteur)) {
+						//TODO Erreur de connexion
+						print "WrongLogin";
+
+				} else {
+						//TODO Connexion valide
+						print "LoginOK%";
+						print (json_encode($visiteur));
+				}
+		}catch(PDOException $e){
+			print "Erreur !%".$e->getMessage();
+			die();
+		}
+		break;
+		case 'synchro':
+		print "synchro%";
+			try {
+				print "synchronized%";
+				$idVisiteur = $_REQUEST['idvisiteur'];
+				$objetDonnees = json_decode($_REQUEST['lesdonnees']);
+				$lesDonnees = objectToArray($objetDonnees);
+
+				$pdo = PdoGsb::getPdoGsb();
+
+				foreach($lesDonnees as $uneLigne) {
+					//Construction du mois au bon format
+					$annee = $uneLigne['annee'];
+					$mois =  $uneLigne['mois'];
+					if (strlen($mois) == 1) {
+	            $mois = '0'.$mois;
+	        }
+					$anneeMois = $annee.$mois;
+
+					//Construction des frais forfaitis&s au bon format
+					$lesFrais = array(
+						'ETP' => $uneLigne['etape'],
+						'NUI' => $uneLigne['nuitee'],
+						'REP' => $uneLigne['repas'],
+						'KM' => $uneLigne['km']
+					);
+
+					//Création d'une ligne de frais en cas de premiere declaration
+					if ($pdo->estPremierFraisMois($idVisiteur, $anneeMois)) {
+						$pdo->creeNouvellesLignesFrais($idVisiteur, $anneeMois);
 					}
 
-      }catch(PDOException $e){
-        print "Erreur !%".$e->getMessage();
-        die();
-      }
-    break;
+					//MAJ des frais forfaitisés
+					$pdo->majFraisForfait($idVisiteur, $anneeMois, $lesFrais);
 
-    case 'maj':
-	  try {
-		print("MAJ");
+					//MAJ des frais hors forfait
+					$lesFraisHf = $uneLigne['lesFraisHf'];
+					//Suppression de tous les frais hors forfait du mois dans la BDD
+					$lesFraisBDD = $pdo->getLesFraisHorsForfait($idVisiteur, $anneeMois);
+					if(is_array($lesFraisBDD)){
+						foreach($lesFraisBDD as $unFraisBDD){
+							$pdo->supprimerFraisHorsForfait($unFraisBDD['id']);
+						}
+					}
 
-		$lesDonnees = json_decode($_REQUEST['lesdonnees']);
-		$donnee = array();
-		$idVisiteur = $lesDonnees[0];
-		$mois = $lesDonnees[1];
-		$fraisForfait = $lesDonnees[2];
-		$fraisHorsForfait = $lesDonnees[3];
+					if(!empty($lesFraisHf)){
+						foreach($lesFraisHf as $unFraisHf){
+							//Ajout des frais hors forfait
+							$jour =  $unFraisHf['jour'];
+							$montant =  $unFraisHf['montant'];
+							$motif =  $unFraisHf['motif'];
+							$date = $jour."/".$mois."/".$annee;
+							$pdo->creeNouveauFraisHorsForfait($idVisiteur,$anneeMois,$motif,$date,$montant);
+						}
+					}
+				}
 
-		//Création d'une ligne de frais en cas de premiere declaration
-		if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
-			$pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
-		}
-
-
-
-
-
-	  } catch(PDOException $e) {
-		print "Erreur !%".$e->getMessage();
-		die();
-	  }
-	  break;
+			}catch(PDOException $e){
+				print "Erreur !%".$e->getMessage();
+				die();
+			}
+		break;
 	}
 }
-
-?>
