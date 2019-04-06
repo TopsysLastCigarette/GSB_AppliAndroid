@@ -1,6 +1,8 @@
 package fr.cned.emdsgil.suividevosfrais;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Classe métier contenant la description d'un frais hors forfait

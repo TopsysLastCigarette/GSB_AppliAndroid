@@ -1,7 +1,10 @@
 package fr.cned.emdsgil.suividevosfrais;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Classe métier contenant les informations des frais d'un mois
@@ -14,6 +17,13 @@ class FraisMois implements Serializable {
     private Integer km; // nombre de km du mois
     private Integer nuitee; // nombre de nuitées du mois
     private Integer repas; // nombre de repas du mois
+
+    private String majEtape; //dernière saisie du nb d'étapes
+    private String majKm; //dernière saisie du nb de km
+    private String majNuitee; //dernière saisie du nb de nuitee
+    private String majRepas; //dernière saisie du nb de repas
+    private String majFraisHf; //Dernière entrée dans les frais Hors forfait
+
     private final ArrayList<FraisHf> lesFraisHf; // liste des frais hors forfait du mois
 
     public FraisMois(Integer annee, Integer mois) {
@@ -23,6 +33,16 @@ class FraisMois implements Serializable {
         this.km = 0;
         this.nuitee = 0;
         this.repas = 0;
+
+        /*
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majEtape = df.format(new Date());
+        this.majKm = df.format(new Date());
+        this.majNuitee = df.format(new Date());
+        this.majRepas = df.format(new Date());
+        this.majFraisHf = df.format(new Date());
+        */
+
         lesFraisHf = new ArrayList<>();
         /* Retrait du type de l'ArrayList (Optimisation Android Studio)
 		 * Original : Typage explicit =
@@ -38,6 +58,8 @@ class FraisMois implements Serializable {
      */
     public void addFraisHf(Float montant, String motif, Integer jour) {
         lesFraisHf.add(new FraisHf(montant, motif, jour));
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majFraisHf = df.format(new Date());
     }
 
     /**
@@ -47,6 +69,15 @@ class FraisMois implements Serializable {
      */
     public void supprFraisHf(Integer index) {
         lesFraisHf.remove(index);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majFraisHf = df.format(new Date());
+    }
+
+    /**
+     * Suppression de tous les frais hors forfait
+     */
+    public void supprAllFraisHf() {
+        lesFraisHf.clear();
     }
 
     public Integer getMois() {
@@ -71,6 +102,8 @@ class FraisMois implements Serializable {
 
     public void setEtape(Integer etape) {
         this.etape = etape;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majEtape = df.format(new Date());
     }
 
     public Integer getKm() {
@@ -79,6 +112,8 @@ class FraisMois implements Serializable {
 
     public void setKm(Integer km) {
         this.km = km;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majKm = df.format(new Date());
     }
 
     public Integer getNuitee() {
@@ -87,6 +122,8 @@ class FraisMois implements Serializable {
 
     public void setNuitee(Integer nuitee) {
         this.nuitee = nuitee;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majNuitee = df.format(new Date());
     }
 
     public Integer getRepas() {
@@ -95,6 +132,8 @@ class FraisMois implements Serializable {
 
     public void setRepas(Integer repas) {
         this.repas = repas;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.majRepas = df.format(new Date());
     }
 
     public ArrayList<FraisHf> getLesFraisHf() {

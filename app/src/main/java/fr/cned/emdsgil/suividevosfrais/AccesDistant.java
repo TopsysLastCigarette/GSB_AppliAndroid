@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AccesDistant implements AsyncResponse{
 
@@ -55,7 +59,56 @@ public class AccesDistant implements AsyncResponse{
             }else if(message[0].equals("synchro")) {
                 String texte;
                 if(message[1].equals("synchronized")){
+
+                    try {
+                        //Récupération du tableau et conversion en JSONObject
+                        JSONObject lesDonnees = new JSONObject(message[2]);
+                        Iterator x = lesDonnees.keys();
+                        //Boucle sur les quantite et ajoute dans le fichier global
+                        while (x.hasNext()){
+                            String key = (String) x.next();
+                            JSONObject lesFrais = (JSONObject)lesDonnees.get(key);
+
+                            //Si la clé n'existe pas
+                            if (!Global.listFraisMois.containsKey(Integer.parseInt(key))) {
+                                // creation du mois et de l'annee s'ils n'existent pas déjà
+                                Integer annee = Integer.parseInt(key.substring(0,4)) ;
+                                Integer mois = Integer.parseInt(key.substring(4,6));
+                                Global.listFraisMois.put(Integer.parseInt(key), new FraisMois(annee, mois)) ;
+                            }
+                            Global.listFraisMois.get(Integer.parseInt(key)).setEtape(lesFrais.getInt("ETP"));
+                            Global.listFraisMois.get(Integer.parseInt(key)).setNuitee(lesFrais.getInt("NUI"));
+                            Global.listFraisMois.get(Integer.parseInt(key)).setRepas(lesFrais.getInt("REP"));
+                            Global.listFraisMois.get(Integer.parseInt(key)).setKm(lesFrais.getInt("KM"));
+
+                            //Si les frais HF de la BDD sont plus récents
+                            if(lesFrais.has("lesFraisHf")){
+
+                                //Suppression de tous les frais HF existants
+                                Global.listFraisMois.get(Integer.parseInt(key)).supprAllFraisHf();
+
+                                //Ajout des nouveaux frais si le tableau de frais HF n'est pas vide
+                                if(!lesFrais.isNull("lesFraisHf")){
+                                    JSONObject lesFraisHF = (JSONObject)lesFrais.get("lesFraisHf");
+                                    Iterator i = lesFraisHF.keys();
+                                    while (i.hasNext()) {
+                                        String keyHF = (String) i.next();
+                                        JSONObject leFraisHF = (JSONObject)lesFraisHF.get(keyHF);
+                                        Float montant = Float.parseFloat((String)leFraisHF.get("montant"));
+                                        String libelle = leFraisHF.getString("libelle");
+                                        Integer jour= leFraisHF.getInt("jour");
+                                        Global.listFraisMois.get(Integer.parseInt(key)).addFraisHf(montant, libelle, jour);
+                                    }
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Serializer.serialize(Global.listFraisMois, this.context);
                     texte = "Synchronisation réussie !";
+
                 } else {
                     texte = "Synchronisation échouée !";
                     texte += message[1];
